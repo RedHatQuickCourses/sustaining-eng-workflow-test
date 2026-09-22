@@ -1,0 +1,77 @@
+#  Patching dist-git repositories using rhpkg
+
+= Patching dist-git Repositories using rhpkg
+
+In the Red Hat Enterprise Linux (RHEL) sustaining engineering workflow, `rhpkg` serves as the primary interface for managing package source code. When a vulnerability is identified, engineers must modify the downstream `dist-git` repository to include the necessary security patches while ensuring the integrity of the RPM build process.
+
+== The Role of dist-git and rhpkg
+The `dist-git` repository acts as the single source of truth for a specific RHEL package version. It contains the `.spec` file, source archives, and a collection of patches applied on top of the upstream source. `rhpkg` facilitates the lifecycle of these files, allowing engineers to pull sources, prepare environments, and push updates to the build system.
+
+FIXME: [Insert a flowchart showing the rhpkg workflow: Clone -> Prep -> Patch/Edit -> Lint -> Commit -> Push]
+
+== Hands-on Activity: Patching a Package
+
+This procedure outlines the standard steps to apply a security fix to a RHEL package using the `rhpkg` toolset.
+
+=== 1. Prepare the Workspace
+Before applying a patch, ensure your environment is configured for the specific RHEL release branch. Clone the repository and prepare the source tree:
+
+[source,bash]
+----
+# Clone the repository for the target branch
+rhpkg clone <package-name>
+cd <package-name>
+
+# Switch to the appropriate release branch if necessary
+git checkout rhel-9.x
+
+# Decompress sources and apply existing patches to ensure a clean state
+rhpkg prep
+----
+
+=== 2. Apply the Security Fix
+After extracting the upstream commit or creating a backported patch, add the patch file to your `dist-git` directory and update the `.spec` file to reference it.
+
+1. Copy your patch file (e.g., `CVE-2023-XXXX.patch`) into the local directory.
+2. Edit the `.spec` file to include the new patch:
++
+[source,spec]
+----
+Patch10: CVE-2023-XXXX.patch
+...
+%prep
+%setup -q
+%patch10 -p1
+----
+
+=== 3. Validate the Patch Application
+Use `rhpkg prep` again to verify that the new patch applies without hunk failures or conflicts.
+
+[source,bash]
+----
+# Verify the patch applies cleanly
+rhpkg prep
+
+# Run linter to ensure compliance with packaging guidelines
+rhpkg lint
+----
+
+=== 4. Commit and Push Changes
+Once validated, stage your changes. It is mandatory to include the Jira tracking ID and the CVE identifier in the commit message to maintain traceability within the product security ecosystem.
+
+[source,bash]
+----
+# Stage the new patch and the updated spec file
+git add CVE-2023-XXXX.patch *.spec
+
+# Commit with required metadata
+rhpkg commit -p -m "Resolves: RHEL-XXXXXX (<CVE-YYYY-XXXXX>)"
+
+# Push the changes to the remote branch
+rhpkg push
+----
+
+== Troubleshooting Common Issues
+* **Hunk Failures:** If `rhpkg prep` fails, the upstream patch likely relies on code structures not present in the older RHEL codebase. Use `git diff` to manually adapt the patch to the downstream source.
+* **Spec File Syntax:** Use `rhpkg lint` to catch common errors such as missing patch declarations or incorrect directory permissions before attempting a build in the Brew environment.
+* **Branch Mismatch:** Always verify you are on the correct `rhel-x.y` branch before pushing; pushing to the wrong branch can cause instability in downstream release streams.

@@ -1,0 +1,13 @@
+#  Triage and Tracking Tools
+
+== Triage and Tracking Tools
+
+Triage and tracking tools provide the infrastructure necessary to manage the CVE lifecycle, from initial identification to final resolution. These systems ensure accountability, maintain compliance with security SLAs, and facilitate communication between Product Security (ProdSec) and Subsystem Teams (SSTs).
+
+Key components include:
+
+*   **Issue Management (Jira/Bugzilla):** Centralized platforms used to create CVE tracker bugs, assign ownership, and track progress against defined SLAs.
+*   **ProdSec IR Tooling:** Specialized internal tools used to calculate CVE due dates, establish specific SLAs, and enforce embargo guidelines for sensitive vulnerabilities.
+*   **Severity-Driven Scoping:** Tracking requirements are determined by the vulnerability's severity; for example, Critical and Important CVEs require tracking across both Z-stream and Y-stream, whereas Moderate CVEs may only require Y-stream tracking.
+
+FIXME: [Insert block diagram illustrating the relationship between Jira/Bugzilla, ProdSec tooling, and the workflow integration for tracking SLAs and severity-based task assignments.]

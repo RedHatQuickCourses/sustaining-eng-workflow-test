@@ -1,0 +1,47 @@
+#  Managing issue tracking with Jira and Bugzilla
+
+= Managing Issue Tracking with Jira and Bugzilla
+
+In the lifecycle of a CVE, effective issue tracking acts as the single source of truth. It bridges the gap between the initial discovery by Product Security (ProdSec) and the final release of an errata update. While both Jira and Bugzilla are utilized within the Red Hat ecosystem, understanding their roles and the specific workflows required for CVE management is critical for maintainers and engineers.
+
+== The Role of Jira and Bugzilla in Vulnerability Management
+
+Bugzilla traditionally serves as the primary interface for tracking individual bugs and vulnerability reports, particularly those originating from upstream or external reporters. Jira, however, is increasingly used for project management, tracking complex workflows, and coordinating cross-team efforts during the vulnerability remediation lifecycle.
+
+=== Key Tracking Requirements
+Effective tracking requires adherence to specific guidelines to ensure compliance with Service Level Agreements (SLAs) and internal audit standards:
+
+*   **Severity Alignment:** Every tracker must be correctly labeled with the appropriate CVSS severity level. This determines the internal SLA for the fix.
+*   **Embargo Guidelines:** When a vulnerability is under embargo, issue trackers must be restricted to authorized users. Maintainers must ensure that sensitive data, such as private Proof of Concept (PoC) scripts or early-access patches, is not exposed to non-authorized personnel.
+*   **State Transitions:** Trackers must follow a strict state machine (e.g., `NEW` -> `ASSIGNED` -> `ON_QA` -> `VERIFIED`). Moving between states incorrectly can impact metrics and delay the release process.
+
+== Workflow for Issue Tracking
+
+When a new CVE is identified, ProdSec creates an initial tracking issue. It is the responsibility of the Subsystem Team (SST) to ensure this ticket accurately reflects the progress of the remediation.
+
+FIXME: [Insert Workflow Diagram: A flowchart showing the state transition of a CVE tracker from Triage through Development to Verified/Release Pending]
+
+=== Best Practices for Issue Maintenance
+To maintain high-quality tracking, follow these standardized steps:
+
+1.  **Initial Review:** Read the vulnerability description, upstream advisories, and the linked Merge Request (MR). Identify if a reproducer or PoC is attached to the tracker.
+2.  **Evidence Documentation:** As you work on the fix, the tracker must serve as an audit log. Post comprehensive comments that include:
+    *   Test execution commands (e.g., `tmt run` or `bkr` command-line strings).
+    *   Direct links to test run logs and results.
+    *   A summary of manual reproducer findings to confirm the vulnerability exists (or does not exist) in the current package version.
+3.  **Transitioning Status:**
+    *   Once a fix is developed and built, transition the tracker to `Verified` or `RELEASE_PENDING` following the Goose QE Errata validation process.
+    *   Ensure all related builds are linked to the tracker for traceability.
+
+== Troubleshooting Tracking Issues
+
+If you encounter a bottleneck in the tracking process, consider the following common issues:
+
+*   **Missing SLAs:** If a tracker is missing a severity score, escalate immediately to the ProdSec team to prevent SLA breaches.
+*   **Visibility Issues:** Ensure that you are using the correct security level for the ticket. If you cannot see an attached PoC, verify your permissions or contact the ticket owner.
+*   **Synchronization Gaps:** If there is a mismatch between the state in the Errata Tool and the state in Jira, perform a manual audit to confirm that the build has been successfully tested and promoted.
+
+[TIP]
+====
+Always ensure that the Errata Tool and the Jira/Bugzilla tracker are synchronized. The Errata Tool relies on the `VERIFIED` status in the issue tracker to allow the movement of an advisory to the `REL_PREP` (Release Preparation) stage.
+====

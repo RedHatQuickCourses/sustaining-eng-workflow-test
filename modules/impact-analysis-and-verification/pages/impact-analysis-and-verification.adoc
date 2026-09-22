@@ -1,0 +1,12 @@
+#  Impact Analysis and Verification
+
+= Impact Analysis and Verification
+
+Impact analysis and verification ensure that identified vulnerabilities are accurately scoped and effectively resolved before final release. This phase involves assessing the reachability of vulnerable code and validating the fix through rigorous testing.
+
+*   **Vulnerability Assessment:** Utilize static analysis tools to identify potential code weaknesses and determine the extent of the vulnerability within the codebase.
+*   **Reachability Analysis:** Employ tools like `govulncheck`, `callgraph`, and `digraph` to determine if the vulnerable code path is actually reachable during runtime, preventing unnecessary patching of non-exploitable code.
+*   **Verification:** Confirm the effectiveness of patches by executing manual reproducers or Proof of Concept (PoC) scripts.
+*   **Documentation:** Record test evidence, including command-line execution strings, logs, and summaries of findings, within the Jira/CVE tracker to ensure full transparency and compliance with QE guidelines.
+
+FIXME: Add a flowchart illustrating the workflow from static analysis and reachability checks to final verification and documentation in Jira.

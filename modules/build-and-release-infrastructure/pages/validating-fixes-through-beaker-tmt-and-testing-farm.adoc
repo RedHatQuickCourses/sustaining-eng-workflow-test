@@ -1,0 +1,70 @@
+#  Validating fixes through Beaker, tmt, and Testing Farm
+
+= Validating Fixes through Beaker, tmt, and Testing Farm
+
+Once a security fix has been developed and built within the Brew environment, the validation phase is critical to ensure that the patch successfully remediates the vulnerability without introducing regressions or stability issues across supported architectures.
+
+In the RHEL ecosystem, validation is orchestrated through a tiered approach involving `tmt` (Test Management Tool), the Testing Farm, and Beaker for hardware-specific scenarios.
+
+== The Validation Lifecycle
+
+The transition from a built RPM to a verified update follows a structured pipeline. Before official release, every fix must pass a series of automated gates.
+
+FIXME: [Insert flow chart here: Showing the transition from Brew Build -> tmt/Testing Farm (Virtualization) -> Beaker (Bare Metal) -> Results/Feedback Loop]
+
+== Test Management with tmt
+
+The **Test Management Tool (tmt)** acts as the standard interface for defining and executing test plans. It allows maintainers to specify test requirements in a declarative format (usually via a `plans.fmf` file in the package repository).
+
+*   **Standardization:** `tmt` abstracts the underlying infrastructure, allowing developers to run the same test plan locally, in a CI pipeline, or within the cloud-based Testing Farm.
+*   **Integration:** It supports various test types, including functional tests, performance benchmarks, and regression suites.
+
+=== Executing Tests via Testing Farm
+The **Testing Farm** provides the on-demand, scalable infrastructure required to execute `tmt` test plans against specific RHEL builds.
+
+1.  **Request Submission:** After a build is promoted to the testing repository, a request is sent to the Testing Farm.
+2.  **Environment Provisioning:** The farm provisions a guest VM based on the target RHEL version and architecture.
+3.  **Execution:** The test plans defined in `tmt` are cloned and executed within the provisioned environment.
+4.  **Reporting:** Logs and artifacts are collected and mapped back to the tracker (e.g., Jira or Bugzilla) for maintainer review.
+
+== Hardware & Multi-Architecture Validation (Beaker)
+
+While `tmt` and Testing Farm handle the majority of userspace testing, certain packages—such as the **kernel**, device drivers, or low-level libraries—require access to specific hardware or multi-architecture bare-metal environments. This is where **Beaker** is utilized.
+
+*   **Bare-Metal Provisioning:** Beaker allows for the scheduling of tests on physical machines, which is essential for validating kernel-mode vulnerabilities that cannot be reproduced or verified in a virtualized container.
+*   **Architecture Coverage:** It ensures that fixes are validated across the full RHEL support matrix (e.g., x86_64, aarch64, ppc64le, s390x).
+*   **Hardware Labs:** Beaker manages the physical lab infrastructure, allowing maintainers to request specific hardware configurations (e.g., specific CPU features, NICs, or storage controllers) required to verify a fix.
+
+== Hands-on Activity: Validating a Fix
+
+This activity demonstrates how to trigger an automated test suite for a package fix.
+
+. **Step 1: Define the test plan**
+Ensure your package directory contains a `plans/` directory with a `plans.fmf` file defining the scope of your verification (e.g., testing the specific CVE reproducer).
+
+. **Step 2: Submit to Testing Farm**
+Use the `tmt` CLI or the Testing Farm API to submit your build for testing:
++
+[source,bash]
+----
+# Example: Running a tmt plan against a build
+tmt run --environment BUILD_ID=1234567 --plan /plans/security_regression
+----
+
+. **Step 3: Monitor Beaker (If Applicable)**
+If your fix is kernel-related, use the `bkr` CLI to check the status of your hardware job:
++
+[source,bash]
+----
+# Check job status in Beaker
+bkr job-status <JOB_ID>
+----
+
+. **Step 4: Analyze Results**
+Review the logs provided by the Testing Farm. If the test fails, investigate the `tmt` logs to determine if the regression was caused by the patch or an environmental factor. Once tests pass, the fix is ready to proceed to the Errata Tool.
+
+== Expert Insight: Troubleshooting Validation Failures
+
+*   **Reproducer Mismatch:** If your test passes in a VM but fails on hardware, verify if your patch relies on specific CPU flags or hardware state that is only present in the Beaker environment.
+*   **Triage Prioritization:** If test resources are constrained, prioritize the execution of "Tier 1" regression tests to ensure core system functionality is intact before running exhaustive security-specific suites.
+*   **Artifact Retention:** Always ensure that `tmt` is configured to export journal logs and core dumps, as these are indispensable when a fix fails during automated testing.

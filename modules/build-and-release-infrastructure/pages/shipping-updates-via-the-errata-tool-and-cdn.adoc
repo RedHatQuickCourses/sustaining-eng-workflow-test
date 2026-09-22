@@ -1,0 +1,63 @@
+#  Shipping updates via the Errata Tool and CDN
+
+= Shipping Updates via the Errata Tool and CDN
+
+Once a security fix has been developed, built in Brew, and verified through automated testing (tmt/Testing Farm) and QE sign-off, the final phase of the CVE lifecycle is the release process. This ensures that the validated security patches reach customers securely and reliably via the Content Delivery Network (CDN).
+
+== The Role of the Errata Tool (ET)
+
+The Errata Tool serves as the central orchestration platform for releasing Red Hat Security Advisories (RHSA). It bridges the gap between the internal development process and the external customer ecosystem.
+
+Key responsibilities of the Errata Tool in the release phase include:
+* **Advisory Assembly:** Linking verified Brew builds (RPMs) to the original CVE Jira tracker.
+* **Metadata Management:** Managing the security impact, release notes, and advisory documentation.
+* **Sign-off Orchestration:** Coordinating necessary approvals from Product Security, QE, and Engineering.
+* **Release Scheduling:** Managing the "push" process to internal and external distribution repositories.
+
+== Content Availability and Verification
+
+Before an advisory is marked for public release, it must undergo **Content Availability Testing (CAT)** and **Test Product Systems (TPS)**. These automated tests are triggered within the Errata Tool to ensure that:
+
+1. **Repository Sync:** The RPMs are correctly placed in the designated CDN repositories.
+2. **Metadata Integrity:** The `repomd.xml` and package metadata are consistent and parseable by package managers like `dnf` or `yum`.
+3. **Installation Validation:** Automated agents attempt to install the newly updated packages to confirm no dependency conflicts or installation failures exist.
+
+FIXME: [Insert flow diagram here illustrating the transition from "QE Sign-off" to "CDN Distribution" via the Errata Tool and TPS/CAT verification]
+
+== Workflow: Moving from QE to Release
+
+To successfully ship an update, the following workflow is performed within the Errata Tool:
+
+1. **Transitioning Status:** Once QE confirms that the fix satisfies the security requirements and regression tests, the Errata is moved to `REL_PREP` (Release Preparation).
+2. **Final Verification:** Automated TPS/CAT checks are initiated. You must monitor these statuses in the Errata Tool to ensure no "Fail" flags are present.
+3. **Shipment:** Upon successful completion of automated tests and final approval, the Errata Tool triggers the synchronization of packages to the production CDN.
+
+=== Hands-On Activity: Validating Errata Readiness
+
+In this activity, you will verify the state of an advisory before its public release.
+
+**Prerequisites:**
+* Access to the Errata Tool instance.
+* An active Errata ID linked to your Jira tracker.
+
+**Steps:**
+
+1. **Review Build Attachments:** 
+   Navigate to your Errata in the Errata Tool. Ensure the correct Brew build NVRs (Name-Version-Release) are attached under the "Builds" tab.
+   
+2. **Check Automated Tests:**
+   Look at the "Test" or "Automation" tab. Verify that the TPS and CAT status indicators are green (Pass). 
+   *If status is 'Failed', inspect the logs provided in the ET link to determine if the issue is a infrastructure flake or a genuine package dependency conflict.*
+
+3. **Verify Documentation:**
+   Ensure the "Advisory" tab contains the correct CVE identifier and the summary of the vulnerability.
+
+4. **Request/Approve Sign-off:**
+   If you have the necessary permissions, toggle the QE sign-off status to `Verified`. This signals to the release engineering team that the advisory is ready for the final CDN push.
+
+5. **Transition Status:**
+   Move the Errata state to `REL_PREP` to begin the final publication window.
+
+== Troubleshooting Tips
+* **TPS Failures:** If TPS fails, it often indicates a missing dependency in the build or an issue with the repository composition. Always check if the required `nocompose` flags were cleared after the embargo lifted.
+* **CDN Lag:** Occasionally, there is a short propagation delay between the Errata Tool status change and the appearance of packages on public mirrors. Use the `repomd` check provided in the ET interface to verify the latest metadata timestamp.

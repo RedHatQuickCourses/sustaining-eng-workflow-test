@@ -1,0 +1,14 @@
+#  Build and Release Infrastructure
+
+== Build and Release Infrastructure
+
+The build and release infrastructure ensures that security fixes are securely packaged, validated, and distributed to RHEL customers. This process relies on a coordinated toolchain to maintain code integrity and stability.
+
+FIXME: Add a flowchart illustrating the build-to-release lifecycle: rhpkg (development) -> Brew (build) -> Testing Farm/Beaker (validation) -> Errata Tool (release).
+
+Key components include:
+
+*   **Package Management**: Developers use `rhpkg` to manage `dist-git` repositories, allowing them to track source code, update `.spec` files, and push security patches.
+*   **Build System**: The Brew environment is used to compile RPM packages from patched sources, ensuring consistent builds across target RHEL releases.
+*   **Quality Assurance**: Fixes undergo rigorous validation using the Testing Farm and `tmt` (Test Management Tool), complemented by `Beaker` for hardware-level regression testing across multiple architectures (x86_64, aarch64, s390x, ppc64le).
+*   **Release Distribution**: Once validated, builds are attached to the Errata Tool (RHSA). After passing internal quality gates (TPS/CAT), the security updates are published to the Red Hat Content Delivery Network (CDN) for end-user consumption.

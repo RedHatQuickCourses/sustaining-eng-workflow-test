@@ -1,0 +1,5 @@
+* xref:build-and-release-infrastructure.adoc[]
+** xref:patching-dist-git-repositories-using-rhpkg.adoc[]
+** xref:building-rpms-within-the-brew-environment.adoc[]
+** xref:validating-fixes-through-beaker-tmt-and-testing-farm.adoc[]
+** xref:shipping-updates-via-the-errata-tool-and-cdn.adoc[]

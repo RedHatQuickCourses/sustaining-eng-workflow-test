@@ -1,0 +1,68 @@
+#  Reachability analysis using govulncheck and callgraph/digraph
+
+= Reachability Analysis using govulncheck and callgraph/digraph
+
+In the context of Red Hat Enterprise Linux (RHEL) maintenance, vulnerability assessment is not limited to identifying the presence of a vulnerable library. A critical step in the triage process is **Reachability Analysis**. This process determines whether a vulnerable function within a dependency is actually reachable—and thus exploitable—within the context of the specific component being analyzed.
+
+By confirming if an execution path exists from the component’s entry points to the vulnerable function, engineering teams can prioritize patches effectively and reduce the noise of false positives.
+
+== Understanding Reachability Analysis
+
+Not every vulnerable function inside a shared object or library is invoked during the normal operation of a host package. If static analysis tools prove that the code path to a vulnerable function is never exercised by the component, the actual security impact may be downgraded or dismissed.
+
+=== Tools for Static Analysis
+*   **govulncheck:** The primary tool for Go-based components. It analyzes the component's codebase to detect if it calls any vulnerable functions from its imported dependencies.
+*   **callgraph / digraph:** These are used for broader compiled code analysis. By generating a call graph (the map of all functions and their callers) and analyzing it with `digraph` (which handles directed graphs), engineers can visualize whether a vulnerable symbol is reachable from the component's main or exported APIs.
+
+FIXME: Add a flowchart illustrating the Reachability Analysis process, starting from "Input: Vulnerable Dependency" through "Static Analysis (govulncheck/callgraph)" and ending with the decision tree "Reachable vs. Unreachable."
+
+== Hands-On Activity: Performing Reachability Analysis
+
+This activity demonstrates how to verify reachability using `govulncheck` for a Go-based component.
+
+=== Prerequisites
+*   Access to the source code repository of the RHEL component.
+*   `govulncheck` installed in your build environment.
+*   A identified CVE associated with a specific Go module dependency.
+
+=== Step-by-Step Instructions
+
+1.  **Prepare the Environment:**
+    Navigate to the root directory of the package containing the `go.mod` file.
+    [source,bash]
+    ----
+    cd /path/to/component/source
+    ----
+
+2.  **Run govulncheck:**
+    Execute `govulncheck` to scan your codebase against the vulnerability database.
+    [source,bash]
+    ----
+    govulncheck ./...
+    ----
+
+3.  **Analyze the Output:**
+    *   If `govulncheck` identifies the vulnerability but states *"[vulnerable-function] is not called"*, your component is likely not impacted by the CVE, despite using the vulnerable dependency.
+    *   If it reports that the function is called, you must review the **Call Stack** provided in the output to understand which local function is initiating the call to the vulnerable dependency.
+
+4.  **Deep Dive with Callgraph (Advanced):**
+    If `govulncheck` is inconclusive, generate a call graph to manually trace execution.
+    [source,bash]
+    ----
+    # Generate the call graph in text format
+    go install golang.org/x/tools/cmd/callgraph@latest
+    callgraph -format text ./... > callgraph.txt
+    ----
+
+5.  **Verify using Digraph:**
+    Use `digraph` to determine if a path exists between your entry point (e.g., `main.main`) and the vulnerable function symbol identified in the CVE report.
+    [source,bash]
+    ----
+    # Filter callgraph for the specific vulnerable symbol
+    grep "vulnerable_function_name" callgraph.txt
+    ----
+
+== Best Practices for Impact Assessment
+*   **False Positives:** Always corroborate tool output with a code review. Sometimes static analysis may miss indirect calls (e.g., via reflection or interface satisfaction).
+*   **Documentation:** When a vulnerability is deemed "Unreachable," document your findings in the Jira/Bugzilla ticket, including the `govulncheck` output, to provide clear evidence for the Product Security team.
+*   **SLA Alignment:** Use reachability analysis results to adjust the priority. If a vulnerability is unreachable, it may allow for a slower, more deliberate patching cycle compared to a critical, directly exploitable vulnerability.

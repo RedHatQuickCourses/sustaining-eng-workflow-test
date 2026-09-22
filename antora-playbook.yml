@@ -1,6 +1,6 @@
 site:
-  title: FIXME Course Title
-  start_page: REPLACEREPONAME::index.adoc
+  title:  Overview on CVE and Tools Used
+  start_page: sustaining-eng-workflow-test::index.adoc
 
 antora:
   extensions:

@@ -1,0 +1,52 @@
+#  Establishing SLAs and embargo guidelines with ProdSec tools
+
+= Establishing SLAs and Embargo Guidelines with ProdSec Tools
+
+In the Red Hat Enterprise Linux (RHEL) ecosystem, maintaining security integrity requires strict adherence to Service Level Agreements (SLAs) and the handling of sensitive vulnerability information. This process is orchestrated through specialized Product Security (ProdSec) tooling to ensure consistent, global responses to security threats.
+
+== Understanding SLAs and Embargoes
+
+=== Service Level Agreements (SLAs)
+SLAs define the mandatory timeframe within which a vulnerability must be addressed. These timelines are driven by the assigned **CVSS (Common Vulnerability Scoring System)** severity.
+*   **Critical/Important CVEs:** Demand immediate attention, often requiring full Z-stream and Y-stream trackers to ensure existing installations and future releases are patched.
+*   **Moderate/Low CVEs:** Typically follow a more flexible schedule, often limited to Y-stream trackers depending on the specific product release policy.
+
+=== Embargo Guidelines
+An embargo is a period during which vulnerability information is restricted to specific parties (e.g., vendors, OS maintainers) to prevent exploitation before a fix is available. ProdSec tools are critical in:
+*   Restricting access to Jira/Bugzilla trackers.
+*   Ensuring communication occurs over encrypted, authorized channels.
+*   Coordinating the "coordinated disclosure" date with upstream maintainers and other Linux distributions.
+
+== Managing Compliance via ProdSec Tooling
+
+ProdSec internal tools automate the calculation of these deadlines, translating global security policies into actionable dates for Subsystem Teams (SSTs).
+
+.Workflow: From CVE Receipt to SLA Enforcement
+FIXME: [Insert flow chart here: Showing the flow from CVE ingestion by ProdSec -> Tool-based SLA calculation -> Jira/Bugzilla ticket creation -> SST assignment -> Embargo management flags]
+
+=== Step-by-Step: Utilizing ProdSec Tools for Tracking
+
+Follow these steps to ensure compliance when handling a new CVE:
+
+. **Initialization:** When a new CVE is ingested, the ProdSec tool automatically calculates the remediation deadline based on the CVSS score.
+. **Tracker Setup:** A Jira or Bugzilla tracker is generated. Verify that the "Due Date" field reflects the SLA calculated by the ProdSec tool.
+. **Embargo Verification:** Check the visibility settings on the tracker. If the CVE is under embargo, the tool will restrict access to cleared personnel only. 
+    * *Warning:* Never discuss embargoed CVEs in public channels or non-authorized Jiras.
+. **Monitoring Progress:** Use the dashboard views provided by the ProdSec suite to monitor your team's remaining time. If a blocker prevents meeting the SLA, coordinate with ProdSec immediately to request an extension or exception.
+
+== Hands-On Activity: Navigating Tracker SLAs
+
+This activity simulates the initial triage of a vulnerability tracker.
+
+**Objective:** Identify your team's deadline and visibility constraints using the provided issue tracker.
+
+1.  **Access the Tracker:** Open the Jira ticket assigned to your SST.
+2.  **Verify Severity:** Check the "CVSS Score" and "Severity" fields. Ensure they match the upstream advisory.
+3.  **Check Deadline:** Locate the "SLA Due Date" field populated by the ProdSec integration tool. 
+4.  **Confirm Embargo Status:** Look for the security labels or "Embargoed" flags at the top of the Jira issue. If flagged, ensure your current local environment has the necessary permissions (via Kerberos/VPN) to view the issue details.
+5.  **Set Status:** Move the ticket to "Analysis" to signal to ProdSec that the SST has acknowledged the SLA and has begun the impact assessment.
+
+[TIP]
+====
+If the calculated SLA date appears incorrect based on the vulnerability's actual impact, use the ProdSec portal to request a "Severity Re-evaluation." Do not modify the SLA date manually in Jira, as these fields are synced automatically by the backend tooling.
+====

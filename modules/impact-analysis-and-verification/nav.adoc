@@ -1,0 +1,4 @@
+* xref:impact-analysis-and-verification.adoc[]
+** xref:utilizing-static-analysis-for-vulnerability-assessment.adoc[]
+** xref:reachability-analysis-using-govulncheck-and-callgraphdigraph.adoc[]
+** xref:verifying-vulnerable-function-calls-in-compiled-code.adoc[]

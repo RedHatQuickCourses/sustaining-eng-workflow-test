@@ -1,22 +1,29 @@
-= An Example Quick Course
+=  Overview on CVE and Tools Used
 :navtitle: Home
 
 == Introduction
 
-Course Title: Course title FIXME
+Course Title:  Overview on CVE and Tools Used
 
 Description:
 Course description FIXME
 
-Duration: pass:[<span class="course-total-duration" aria-live="polite">…</span>]
+Duration: FIXME hours
 
-== Objectives
+== Topics covered in this course
 
-On completing this course, you should be able to:
 
-* Observable, measurable objective...
-* Observable, measurable objective...
-* Observable, measurable objective...
+*  Understanding CVE Fundamentals
+
+*  CVE Resolution Workflow
+
+*  Triage and Tracking Tools
+
+*  Impact Analysis and Verification
+
+*  Build and Release Infrastructure
+
+
 
 == Prerequisites
 

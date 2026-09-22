@@ -1,11 +1,11 @@
 {
-  "totalSeconds": 4009,
-  "pageCount": 15,
+  "totalSeconds": 2836,
+  "pageCount": 25,
   "pages": [
     {
       "module": "ROOT",
       "page": "index.adoc",
-      "seconds": 26
+      "seconds": 27
     },
     {
       "module": "LABENV",
@@ -13,64 +13,114 @@
       "seconds": 4
     },
     {
-      "module": "chapter1",
-      "page": "index.adoc",
-      "seconds": 9
+      "module": "understanding-cve-fundamentals",
+      "page": "understanding-cve-fundamentals.adoc",
+      "seconds": 40
     },
     {
-      "module": "chapter1",
-      "page": "section1.adoc",
-      "seconds": 3009
+      "module": "understanding-cve-fundamentals",
+      "page": "definition-and-purpose-of-common-vulnerabilities-and-exposures-cve.adoc",
+      "seconds": 126
     },
     {
-      "module": "chapter1",
-      "page": "section2.adoc",
-      "seconds": 9
+      "module": "understanding-cve-fundamentals",
+      "page": "vulnerability-triage-and-cvss-severity-scoring.adoc",
+      "seconds": 177
     },
     {
-      "module": "chapter1",
-      "page": "section3.adoc",
-      "seconds": 9
+      "module": "understanding-cve-fundamentals",
+      "page": "scope-of-sustaining-engineering-in-rhel-maintenance.adoc",
+      "seconds": 150
     },
     {
-      "module": "chapter1",
-      "page": "tabs-demo.adoc",
-      "seconds": 20
+      "module": "understanding-cve-fundamentals",
+      "page": "strategies-for-backporting-security-patches-versus-upstream-rebasing.adoc",
+      "seconds": 158
     },
     {
-      "module": "chapter1",
-      "page": "collapsible-demo.adoc",
-      "seconds": 36
+      "module": "cve-resolution-workflow",
+      "page": "cve-resolution-workflow.adoc",
+      "seconds": 59
     },
     {
-      "module": "chapter1",
-      "page": "images.adoc",
-      "seconds": 841
+      "module": "cve-resolution-workflow",
+      "page": "lifecycle-stages-triage-analysis-development-build-testing-and-release.adoc",
+      "seconds": 177
     },
     {
-      "module": "chapter2",
-      "page": "index.adoc",
-      "seconds": 9
+      "module": "cve-resolution-workflow",
+      "page": "coordination-between-product-security-and-subsystem-teams.adoc",
+      "seconds": 164
     },
     {
-      "module": "chapter2",
-      "page": "section1.adoc",
-      "seconds": 9
+      "module": "cve-resolution-workflow",
+      "page": "management-of-security-advisories-and-errata-release.adoc",
+      "seconds": 188
     },
     {
-      "module": "chapter3",
-      "page": "index.adoc",
-      "seconds": 9
+      "module": "triage-and-tracking-tools",
+      "page": "triage-and-tracking-tools.adoc",
+      "seconds": 42
     },
     {
-      "module": "chapter3",
-      "page": "section1.adoc",
-      "seconds": 9
+      "module": "triage-and-tracking-tools",
+      "page": "managing-issue-tracking-with-jira-and-bugzilla.adoc",
+      "seconds": 152
     },
     {
-      "module": "chapter3",
-      "page": "section2.adoc",
-      "seconds": 9
+      "module": "triage-and-tracking-tools",
+      "page": "establishing-slas-and-embargo-guidelines-with-prodsec-tools.adoc",
+      "seconds": 70
+    },
+    {
+      "module": "triage-and-tracking-tools",
+      "page": "tracking-requirements-based-on-vulnerability-severity.adoc",
+      "seconds": 158
+    },
+    {
+      "module": "impact-analysis-and-verification",
+      "page": "impact-analysis-and-verification.adoc",
+      "seconds": 45
+    },
+    {
+      "module": "impact-analysis-and-verification",
+      "page": "utilizing-static-analysis-for-vulnerability-assessment.adoc",
+      "seconds": 148
+    },
+    {
+      "module": "impact-analysis-and-verification",
+      "page": "reachability-analysis-using-govulncheck-and-callgraphdigraph.adoc",
+      "seconds": 163
+    },
+    {
+      "module": "impact-analysis-and-verification",
+      "page": "verifying-vulnerable-function-calls-in-compiled-code.adoc",
+      "seconds": 154
+    },
+    {
+      "module": "build-and-release-infrastructure",
+      "page": "build-and-release-infrastructure.adoc",
+      "seconds": 51
+    },
+    {
+      "module": "build-and-release-infrastructure",
+      "page": "patching-dist-git-repositories-using-rhpkg.adoc",
+      "seconds": 97
+    },
+    {
+      "module": "build-and-release-infrastructure",
+      "page": "building-rpms-within-the-brew-environment.adoc",
+      "seconds": 131
+    },
+    {
+      "module": "build-and-release-infrastructure",
+      "page": "validating-fixes-through-beaker-tmt-and-testing-farm.adoc",
+      "seconds": 178
+    },
+    {
+      "module": "build-and-release-infrastructure",
+      "page": "shipping-updates-via-the-errata-tool-and-cdn.adoc",
+      "seconds": 176
     },
     {
       "module": "appendix",

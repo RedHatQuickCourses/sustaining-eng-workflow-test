@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Building RPMs within the Brew environment :: Overview on CVE and Tools Used</title>
+    <link rel="prev" href="patching-dist-git-repositories-using-rhpkg.html">
+    <link rel="next" href="validating-fixes-through-beaker-tmt-and-testing-farm.html">
+    <meta name="generator" content="Antora 3.2.0-alpha.12">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/tabs.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/collapsible.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/reading-time.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/audio-transcript.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">Overview on CVE and Tools Used</a>
+      <div class="navbar-item search hide-for-print">
+        <div id="search-field" class="field">
+          <input id="search-input" type="text" placeholder="Search the docs">
+        </div>
+      </div>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="sustaining-eng-workflow-test" data-version="1.0.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">Overview on CVE and Tools Used</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Home</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../LABENV/index.html">Lab Environment</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../understanding-cve-fundamentals/understanding-cve-fundamentals.html">Understanding CVE Fundamentals</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/definition-and-purpose-of-common-vulnerabilities-and-exposures-cve.html">Definition and purpose of Common Vulnerabilities and Exposures (CVE)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/vulnerability-triage-and-cvss-severity-scoring.html">Vulnerability triage and CVSS severity scoring</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/scope-of-sustaining-engineering-in-rhel-maintenance.html">Scope of Sustaining Engineering in RHEL maintenance</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/strategies-for-backporting-security-patches-versus-upstream-rebasing.html">Strategies for backporting security patches versus upstream rebasing</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../cve-resolution-workflow/cve-resolution-workflow.html">CVE Resolution Workflow</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cve-resolution-workflow/lifecycle-stages-triage-analysis-development-build-testing-and-release.html">Lifecycle stages: Triage, Analysis, Development, Build, Testing, and Release</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cve-resolution-workflow/coordination-between-product-security-and-subsystem-teams.html">Coordination between Product Security and Subsystem Teams</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cve-resolution-workflow/management-of-security-advisories-and-errata-release.html">Management of security advisories and errata release</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../triage-and-tracking-tools/triage-and-tracking-tools.html">Triage and Tracking Tools</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../triage-and-tracking-tools/managing-issue-tracking-with-jira-and-bugzilla.html">Managing issue tracking with Jira and Bugzilla</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../triage-and-tracking-tools/establishing-slas-and-embargo-guidelines-with-prodsec-tools.html">Establishing SLAs and embargo guidelines with ProdSec tools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../triage-and-tracking-tools/tracking-requirements-based-on-vulnerability-severity.html">Tracking requirements based on vulnerability severity</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../impact-analysis-and-verification/impact-analysis-and-verification.html">Impact Analysis and Verification</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../impact-analysis-and-verification/utilizing-static-analysis-for-vulnerability-assessment.html">Utilizing static analysis for vulnerability assessment</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../impact-analysis-and-verification/reachability-analysis-using-govulncheck-and-callgraphdigraph.html">Reachability analysis using govulncheck and callgraph/digraph</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../impact-analysis-and-verification/verifying-vulnerable-function-calls-in-compiled-code.html">Verifying vulnerable function calls in compiled code</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="build-and-release-infrastructure.html">Build and Release Infrastructure</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="patching-dist-git-repositories-using-rhpkg.html">Patching dist-git repositories using rhpkg</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="building-rpms-within-the-brew-environment.html">Building RPMs within the Brew environment</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="validating-fixes-through-beaker-tmt-and-testing-farm.html">Validating fixes through Beaker, tmt, and Testing Farm</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="shipping-updates-via-the-errata-tool-and-cdn.html">Shipping updates via the Errata Tool and CDN</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../appendix/appendix.html">Appendix</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Overview on CVE and Tools Used</span>
+    <span class="version">1.0.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">Overview on CVE and Tools Used</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">1.0.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">Overview on CVE and Tools Used</a></li>
+    <li><a href="build-and-release-infrastructure.html">Build and Release Infrastructure</a></li>
+    <li><a href="building-rpms-within-the-brew-environment.html">Building RPMs within the Brew environment</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Building RPMs within the Brew environment</h1>
+<h1 id="_building_rpms_within_the_brew_environment" class="sect0"><a class="anchor" href="#_building_rpms_within_the_brew_environment"></a>Building RPMs within the Brew Environment</h1>
+<div class="paragraph">
+<p>In the Red Hat ecosystem, <strong>Brew</strong> (the internal implementation of the Koji build system) serves as the centralized infrastructure for compiling source code into installable RPM packages and container images. For security engineers and developers, understanding how to interact with Brew is critical for moving a vulnerability fix from a patched source code state to a distributable update.</p>
+</div>
+<div class="sect1">
+<h2 id="_the_role_of_brew_in_cve_resolution"><a class="anchor" href="#_the_role_of_brew_in_cve_resolution"></a>The Role of Brew in CVE Resolution</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When a patch is applied to a <code>dist-git</code> repository, the source code must be compiled into binary RPMs. Brew ensures that these binaries are created in a controlled, reproducible environment that matches the target distribution release (e.g., RHEL 8, RHEL 9).</p>
+</div>
+<div class="paragraph">
+<p>For CVE remediation, Brew provides specific functionality to handle security updates, particularly those under embargo:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Standard Builds:</strong> Used for routine updates where the package is immediately ready for distribution via the Content Delivery Network (CDN).</p>
+</li>
+<li>
+<p><strong>Scratch Builds:</strong> Temporary builds used for validation. They do not persist in the repository and are not intended for production release.</p>
+</li>
+<li>
+<p><strong>Nocompose Builds:</strong> Specialized builds used for embargoed CVEs. These allow engineers to generate signed RPMs without triggering the automated repository composition (nightly composes), ensuring the fix remains private until the public disclosure date.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>FIXME: [Insert Flowchart: Lifecycle of a CVE Build showing the path from rhpkg push &#8594; Brew Build &#8594; Nocompose Target &#8594; Repository Composition]</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_hands_on_activity_building_and_verifying_rpms"><a class="anchor" href="#_hands_on_activity_building_and_verifying_rpms"></a>Hands-on Activity: Building and Verifying RPMs</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This activity covers the process of verifying your patch via a scratch build and triggering an official build for a CVE fix.</p>
+</div>
+<div class="sect2">
+<h3 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>An active <code>rhpkg</code> configuration authenticated with your credentials.</p>
+</li>
+<li>
+<p>A patched <code>dist-git</code> repository.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_1_performing_a_scratch_build"><a class="anchor" href="#_step_1_performing_a_scratch_build"></a>Step 1: Performing a Scratch Build</h3>
+<div class="paragraph">
+<p>Before committing your changes to the official branch, perform a scratch build to verify that your code compiles across all required architectures. This prevents "broken builds" in the main line.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># Build the source RPM and submit to Brew for scratch analysis
+rhpkg scratch-build --srpm
+
+# Alternatively, specify architectures for broader validation
+rhpkg scratch-build --arches x86_64,aarch64,ppc64le,s390x</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_2_triggering_an_official_build"><a class="anchor" href="#_step_2_triggering_an_official_build"></a>Step 2: Triggering an Official Build</h3>
+<div class="paragraph">
+<p>Once your changes are committed and pushed to the relevant branch, you must trigger an official build. If you are handling an embargoed CVE, you must use a <code>nocompose</code> target to maintain confidentiality.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># Trigger a standard official build
+rhpkg build
+
+# Trigger an official build using a nocompose target for embargoed CVEs
+# Replace &lt;target-release&gt; with your specific RHEL version/target
+rhpkg build --target &lt;target-release&gt;-nocompose</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_troubleshooting_and_best_practices"><a class="anchor" href="#_troubleshooting_and_best_practices"></a>Troubleshooting and Best Practices</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Build Failures:</strong> If a build fails in Brew, examine the build logs provided in the Brew web interface. Common issues include missing build dependencies (BuildRequires in the spec file) or architecture-specific compilation errors.</p>
+</li>
+<li>
+<p><strong>Tracking NVR:</strong> Always record the <strong>NVR</strong> (Name-Version-Release) generated by Brew. You will need this NVR to link the build to an Errata Tool advisory in the subsequent phase of the workflow.</p>
+</li>
+<li>
+<p><strong>Dependency Management:</strong> If your CVE fix introduces new dependencies, ensure these are available in the buildroot. Attempting to build against unavailable dependencies will result in a build failure.</p>
+</li>
+<li>
+<p><strong>Architecture Parity:</strong> Always build for all supported architectures unless explicitly instructed otherwise. A fix that compiles on <code>x86_64</code> but fails on <code>aarch64</code> will prevent the update from shipping for the entire platform.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="patching-dist-git-repositories-using-rhpkg.html">Patching dist-git repositories using rhpkg</a></span>
+  <span class="next"><a href="validating-fixes-through-beaker-tmt-and-testing-farm.html">Validating fixes through Beaker, tmt, and Testing Farm</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+<script defer src="../../../_/js/vendor/tabs.js"></script>
+<script defer src="../../../_/js/vendor/reading-time.js"></script>
+<script src="../../../_/js/vendor/lunr.js"></script>
+<script src="../../../_/js/search-ui.js" id="search-ui-script" data-site-root-path="../../.." data-snippet-length="100" data-stylesheet="../../../_/css/search.css"></script>
+<script async src="../../../search-index.js"></script>
+  </body>
+</html>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Reachability analysis using govulncheck and callgraph/digraph :: Overview on CVE and Tools Used</title>
+    <link rel="prev" href="utilizing-static-analysis-for-vulnerability-assessment.html">
+    <link rel="next" href="verifying-vulnerable-function-calls-in-compiled-code.html">
+    <meta name="generator" content="Antora 3.2.0-alpha.12">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/tabs.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/collapsible.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/reading-time.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/audio-transcript.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">Overview on CVE and Tools Used</a>
+      <div class="navbar-item search hide-for-print">
+        <div id="search-field" class="field">
+          <input id="search-input" type="text" placeholder="Search the docs">
+        </div>
+      </div>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="sustaining-eng-workflow-test" data-version="1.0.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">Overview on CVE and Tools Used</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Home</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../LABENV/index.html">Lab Environment</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../understanding-cve-fundamentals/understanding-cve-fundamentals.html">Understanding CVE Fundamentals</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/definition-and-purpose-of-common-vulnerabilities-and-exposures-cve.html">Definition and purpose of Common Vulnerabilities and Exposures (CVE)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/vulnerability-triage-and-cvss-severity-scoring.html">Vulnerability triage and CVSS severity scoring</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/scope-of-sustaining-engineering-in-rhel-maintenance.html">Scope of Sustaining Engineering in RHEL maintenance</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/strategies-for-backporting-security-patches-versus-upstream-rebasing.html">Strategies for backporting security patches versus upstream rebasing</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../cve-resolution-workflow/cve-resolution-workflow.html">CVE Resolution Workflow</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cve-resolution-workflow/lifecycle-stages-triage-analysis-development-build-testing-and-release.html">Lifecycle stages: Triage, Analysis, Development, Build, Testing, and Release</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cve-resolution-workflow/coordination-between-product-security-and-subsystem-teams.html">Coordination between Product Security and Subsystem Teams</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cve-resolution-workflow/management-of-security-advisories-and-errata-release.html">Management of security advisories and errata release</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../triage-and-tracking-tools/triage-and-tracking-tools.html">Triage and Tracking Tools</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../triage-and-tracking-tools/managing-issue-tracking-with-jira-and-bugzilla.html">Managing issue tracking with Jira and Bugzilla</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../triage-and-tracking-tools/establishing-slas-and-embargo-guidelines-with-prodsec-tools.html">Establishing SLAs and embargo guidelines with ProdSec tools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../triage-and-tracking-tools/tracking-requirements-based-on-vulnerability-severity.html">Tracking requirements based on vulnerability severity</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="impact-analysis-and-verification.html">Impact Analysis and Verification</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="utilizing-static-analysis-for-vulnerability-assessment.html">Utilizing static analysis for vulnerability assessment</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="reachability-analysis-using-govulncheck-and-callgraphdigraph.html">Reachability analysis using govulncheck and callgraph/digraph</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="verifying-vulnerable-function-calls-in-compiled-code.html">Verifying vulnerable function calls in compiled code</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../build-and-release-infrastructure/build-and-release-infrastructure.html">Build and Release Infrastructure</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../build-and-release-infrastructure/patching-dist-git-repositories-using-rhpkg.html">Patching dist-git repositories using rhpkg</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../build-and-release-infrastructure/building-rpms-within-the-brew-environment.html">Building RPMs within the Brew environment</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../build-and-release-infrastructure/validating-fixes-through-beaker-tmt-and-testing-farm.html">Validating fixes through Beaker, tmt, and Testing Farm</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../build-and-release-infrastructure/shipping-updates-via-the-errata-tool-and-cdn.html">Shipping updates via the Errata Tool and CDN</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../appendix/appendix.html">Appendix</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Overview on CVE and Tools Used</span>
+    <span class="version">1.0.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">Overview on CVE and Tools Used</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">1.0.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">Overview on CVE and Tools Used</a></li>
+    <li><a href="impact-analysis-and-verification.html">Impact Analysis and Verification</a></li>
+    <li><a href="reachability-analysis-using-govulncheck-and-callgraphdigraph.html">Reachability analysis using govulncheck and callgraph/digraph</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Reachability analysis using govulncheck and callgraph/digraph</h1>
+<h1 id="_reachability_analysis_using_govulncheck_and_callgraphdigraph" class="sect0"><a class="anchor" href="#_reachability_analysis_using_govulncheck_and_callgraphdigraph"></a>Reachability Analysis using govulncheck and callgraph/digraph</h1>
+<div class="paragraph">
+<p>In the context of Red Hat Enterprise Linux (RHEL) maintenance, vulnerability assessment is not limited to identifying the presence of a vulnerable library. A critical step in the triage process is <strong>Reachability Analysis</strong>. This process determines whether a vulnerable function within a dependency is actually reachable—and thus exploitable—within the context of the specific component being analyzed.</p>
+</div>
+<div class="paragraph">
+<p>By confirming if an execution path exists from the component’s entry points to the vulnerable function, engineering teams can prioritize patches effectively and reduce the noise of false positives.</p>
+</div>
+<div class="sect1">
+<h2 id="_understanding_reachability_analysis"><a class="anchor" href="#_understanding_reachability_analysis"></a>Understanding Reachability Analysis</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Not every vulnerable function inside a shared object or library is invoked during the normal operation of a host package. If static analysis tools prove that the code path to a vulnerable function is never exercised by the component, the actual security impact may be downgraded or dismissed.</p>
+</div>
+<div class="sect2">
+<h3 id="_tools_for_static_analysis"><a class="anchor" href="#_tools_for_static_analysis"></a>Tools for Static Analysis</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>govulncheck:</strong> The primary tool for Go-based components. It analyzes the component&#8217;s codebase to detect if it calls any vulnerable functions from its imported dependencies.</p>
+</li>
+<li>
+<p><strong>callgraph / digraph:</strong> These are used for broader compiled code analysis. By generating a call graph (the map of all functions and their callers) and analyzing it with <code>digraph</code> (which handles directed graphs), engineers can visualize whether a vulnerable symbol is reachable from the component&#8217;s main or exported APIs.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>FIXME: Add a flowchart illustrating the Reachability Analysis process, starting from "Input: Vulnerable Dependency" through "Static Analysis (govulncheck/callgraph)" and ending with the decision tree "Reachable vs. Unreachable."</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_hands_on_activity_performing_reachability_analysis"><a class="anchor" href="#_hands_on_activity_performing_reachability_analysis"></a>Hands-On Activity: Performing Reachability Analysis</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This activity demonstrates how to verify reachability using <code>govulncheck</code> for a Go-based component.</p>
+</div>
+<div class="sect2">
+<h3 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Access to the source code repository of the RHEL component.</p>
+</li>
+<li>
+<p><code>govulncheck</code> installed in your build environment.</p>
+</li>
+<li>
+<p>A identified CVE associated with a specific Go module dependency.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_by_step_instructions"><a class="anchor" href="#_step_by_step_instructions"></a>Step-by-Step Instructions</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Prepare the Environment:</strong>
+Navigate to the root directory of the package containing the <code>go.mod</code> file.
+[source,bash]
+----
+cd /path/to/component/source
+----</p>
+</li>
+<li>
+<p><strong>Run govulncheck:</strong>
+Execute <code>govulncheck</code> to scan your codebase against the vulnerability database.
+[source,bash]
+----
+govulncheck ./&#8230;&#8203;
+----</p>
+</li>
+<li>
+<p><strong>Analyze the Output:</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>If <code>govulncheck</code> identifies the vulnerability but states <strong>"[vulnerable-function] is not called"</strong>, your component is likely not impacted by the CVE, despite using the vulnerable dependency.</p>
+</li>
+<li>
+<p>If it reports that the function is called, you must review the <strong>Call Stack</strong> provided in the output to understand which local function is initiating the call to the vulnerable dependency.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Deep Dive with Callgraph (Advanced):</strong>
+If <code>govulncheck</code> is inconclusive, generate a call graph to manually trace execution.
+[source,bash]
+----
+# Generate the call graph in text format
+go install golang.org/x/tools/cmd/callgraph@latest
+callgraph -format text ./&#8230;&#8203; &gt; callgraph.txt
+----</p>
+</li>
+<li>
+<p><strong>Verify using Digraph:</strong>
+Use <code>digraph</code> to determine if a path exists between your entry point (e.g., <code>main.main</code>) and the vulnerable function symbol identified in the CVE report.
+[source,bash]
+----
+# Filter callgraph for the specific vulnerable symbol
+grep "vulnerable_function_name" callgraph.txt
+----</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_best_practices_for_impact_assessment"><a class="anchor" href="#_best_practices_for_impact_assessment"></a>Best Practices for Impact Assessment</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><strong>False Positives:</strong> Always corroborate tool output with a code review. Sometimes static analysis may miss indirect calls (e.g., via reflection or interface satisfaction).</p>
+</li>
+<li>
+<p><strong>Documentation:</strong> When a vulnerability is deemed "Unreachable," document your findings in the Jira/Bugzilla ticket, including the <code>govulncheck</code> output, to provide clear evidence for the Product Security team.</p>
+</li>
+<li>
+<p><strong>SLA Alignment:</strong> Use reachability analysis results to adjust the priority. If a vulnerability is unreachable, it may allow for a slower, more deliberate patching cycle compared to a critical, directly exploitable vulnerability.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="utilizing-static-analysis-for-vulnerability-assessment.html">Utilizing static analysis for vulnerability assessment</a></span>
+  <span class="next"><a href="verifying-vulnerable-function-calls-in-compiled-code.html">Verifying vulnerable function calls in compiled code</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+<script defer src="../../../_/js/vendor/tabs.js"></script>
+<script defer src="../../../_/js/vendor/reading-time.js"></script>
+<script src="../../../_/js/vendor/lunr.js"></script>
+<script src="../../../_/js/search-ui.js" id="search-ui-script" data-site-root-path="../../.." data-snippet-length="100" data-stylesheet="../../../_/css/search.css"></script>
+<script async src="../../../search-index.js"></script>
+  </body>
+</html>

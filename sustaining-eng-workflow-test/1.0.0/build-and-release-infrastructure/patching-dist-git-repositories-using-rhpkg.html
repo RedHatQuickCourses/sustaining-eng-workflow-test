@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Patching dist-git repositories using rhpkg :: Overview on CVE and Tools Used</title>
+    <link rel="prev" href="build-and-release-infrastructure.html">
+    <link rel="next" href="building-rpms-within-the-brew-environment.html">
+    <meta name="generator" content="Antora 3.2.0-alpha.12">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/tabs.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/collapsible.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/reading-time.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/audio-transcript.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">Overview on CVE and Tools Used</a>
+      <div class="navbar-item search hide-for-print">
+        <div id="search-field" class="field">
+          <input id="search-input" type="text" placeholder="Search the docs">
+        </div>
+      </div>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="sustaining-eng-workflow-test" data-version="1.0.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">Overview on CVE and Tools Used</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Home</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../LABENV/index.html">Lab Environment</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../understanding-cve-fundamentals/understanding-cve-fundamentals.html">Understanding CVE Fundamentals</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/definition-and-purpose-of-common-vulnerabilities-and-exposures-cve.html">Definition and purpose of Common Vulnerabilities and Exposures (CVE)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/vulnerability-triage-and-cvss-severity-scoring.html">Vulnerability triage and CVSS severity scoring</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/scope-of-sustaining-engineering-in-rhel-maintenance.html">Scope of Sustaining Engineering in RHEL maintenance</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/strategies-for-backporting-security-patches-versus-upstream-rebasing.html">Strategies for backporting security patches versus upstream rebasing</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../cve-resolution-workflow/cve-resolution-workflow.html">CVE Resolution Workflow</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cve-resolution-workflow/lifecycle-stages-triage-analysis-development-build-testing-and-release.html">Lifecycle stages: Triage, Analysis, Development, Build, Testing, and Release</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cve-resolution-workflow/coordination-between-product-security-and-subsystem-teams.html">Coordination between Product Security and Subsystem Teams</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cve-resolution-workflow/management-of-security-advisories-and-errata-release.html">Management of security advisories and errata release</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../triage-and-tracking-tools/triage-and-tracking-tools.html">Triage and Tracking Tools</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../triage-and-tracking-tools/managing-issue-tracking-with-jira-and-bugzilla.html">Managing issue tracking with Jira and Bugzilla</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../triage-and-tracking-tools/establishing-slas-and-embargo-guidelines-with-prodsec-tools.html">Establishing SLAs and embargo guidelines with ProdSec tools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../triage-and-tracking-tools/tracking-requirements-based-on-vulnerability-severity.html">Tracking requirements based on vulnerability severity</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../impact-analysis-and-verification/impact-analysis-and-verification.html">Impact Analysis and Verification</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../impact-analysis-and-verification/utilizing-static-analysis-for-vulnerability-assessment.html">Utilizing static analysis for vulnerability assessment</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../impact-analysis-and-verification/reachability-analysis-using-govulncheck-and-callgraphdigraph.html">Reachability analysis using govulncheck and callgraph/digraph</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../impact-analysis-and-verification/verifying-vulnerable-function-calls-in-compiled-code.html">Verifying vulnerable function calls in compiled code</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="build-and-release-infrastructure.html">Build and Release Infrastructure</a>
+<ul class="nav-list">
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="patching-dist-git-repositories-using-rhpkg.html">Patching dist-git repositories using rhpkg</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="building-rpms-within-the-brew-environment.html">Building RPMs within the Brew environment</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="validating-fixes-through-beaker-tmt-and-testing-farm.html">Validating fixes through Beaker, tmt, and Testing Farm</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="shipping-updates-via-the-errata-tool-and-cdn.html">Shipping updates via the Errata Tool and CDN</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../appendix/appendix.html">Appendix</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Overview on CVE and Tools Used</span>
+    <span class="version">1.0.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">Overview on CVE and Tools Used</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">1.0.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">Overview on CVE and Tools Used</a></li>
+    <li><a href="build-and-release-infrastructure.html">Build and Release Infrastructure</a></li>
+    <li><a href="patching-dist-git-repositories-using-rhpkg.html">Patching dist-git repositories using rhpkg</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Patching dist-git repositories using rhpkg</h1>
+<h1 id="_patching_dist_git_repositories_using_rhpkg" class="sect0"><a class="anchor" href="#_patching_dist_git_repositories_using_rhpkg"></a>Patching dist-git Repositories using rhpkg</h1>
+<div class="paragraph">
+<p>In the Red Hat Enterprise Linux (RHEL) sustaining engineering workflow, <code>rhpkg</code> serves as the primary interface for managing package source code. When a vulnerability is identified, engineers must modify the downstream <code>dist-git</code> repository to include the necessary security patches while ensuring the integrity of the RPM build process.</p>
+</div>
+<div class="sect1">
+<h2 id="_the_role_of_dist_git_and_rhpkg"><a class="anchor" href="#_the_role_of_dist_git_and_rhpkg"></a>The Role of dist-git and rhpkg</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>dist-git</code> repository acts as the single source of truth for a specific RHEL package version. It contains the <code>.spec</code> file, source archives, and a collection of patches applied on top of the upstream source. <code>rhpkg</code> facilitates the lifecycle of these files, allowing engineers to pull sources, prepare environments, and push updates to the build system.</p>
+</div>
+<div class="paragraph">
+<p>FIXME: [Insert a flowchart showing the rhpkg workflow: Clone &#8594; Prep &#8594; Patch/Edit &#8594; Lint &#8594; Commit &#8594; Push]</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_hands_on_activity_patching_a_package"><a class="anchor" href="#_hands_on_activity_patching_a_package"></a>Hands-on Activity: Patching a Package</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This procedure outlines the standard steps to apply a security fix to a RHEL package using the <code>rhpkg</code> toolset.</p>
+</div>
+<div class="sect2">
+<h3 id="_1_prepare_the_workspace"><a class="anchor" href="#_1_prepare_the_workspace"></a>1. Prepare the Workspace</h3>
+<div class="paragraph">
+<p>Before applying a patch, ensure your environment is configured for the specific RHEL release branch. Clone the repository and prepare the source tree:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># Clone the repository for the target branch
+rhpkg clone &lt;package-name&gt;
+cd &lt;package-name&gt;
+
+# Switch to the appropriate release branch if necessary
+git checkout rhel-9.x
+
+# Decompress sources and apply existing patches to ensure a clean state
+rhpkg prep</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_2_apply_the_security_fix"><a class="anchor" href="#_2_apply_the_security_fix"></a>2. Apply the Security Fix</h3>
+<div class="paragraph">
+<p>After extracting the upstream commit or creating a backported patch, add the patch file to your <code>dist-git</code> directory and update the <code>.spec</code> file to reference it.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Copy your patch file (e.g., <code>CVE-2023-XXXX.patch</code>) into the local directory.</p>
+</li>
+<li>
+<p>Edit the <code>.spec</code> file to include the new patch:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-spec hljs" data-lang="spec">Patch10: CVE-2023-XXXX.patch
+...
+%prep
+%setup -q
+%patch10 -p1</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_3_validate_the_patch_application"><a class="anchor" href="#_3_validate_the_patch_application"></a>3. Validate the Patch Application</h3>
+<div class="paragraph">
+<p>Use <code>rhpkg prep</code> again to verify that the new patch applies without hunk failures or conflicts.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># Verify the patch applies cleanly
+rhpkg prep
+
+# Run linter to ensure compliance with packaging guidelines
+rhpkg lint</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_4_commit_and_push_changes"><a class="anchor" href="#_4_commit_and_push_changes"></a>4. Commit and Push Changes</h3>
+<div class="paragraph">
+<p>Once validated, stage your changes. It is mandatory to include the Jira tracking ID and the CVE identifier in the commit message to maintain traceability within the product security ecosystem.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># Stage the new patch and the updated spec file
+git add CVE-2023-XXXX.patch *.spec
+
+# Commit with required metadata
+rhpkg commit -p -m "Resolves: RHEL-XXXXXX (&lt;CVE-YYYY-XXXXX&gt;)"
+
+# Push the changes to the remote branch
+rhpkg push</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_troubleshooting_common_issues"><a class="anchor" href="#_troubleshooting_common_issues"></a>Troubleshooting Common Issues</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Hunk Failures:</strong> If <code>rhpkg prep</code> fails, the upstream patch likely relies on code structures not present in the older RHEL codebase. Use <code>git diff</code> to manually adapt the patch to the downstream source.</p>
+</li>
+<li>
+<p><strong>Spec File Syntax:</strong> Use <code>rhpkg lint</code> to catch common errors such as missing patch declarations or incorrect directory permissions before attempting a build in the Brew environment.</p>
+</li>
+<li>
+<p><strong>Branch Mismatch:</strong> Always verify you are on the correct <code>rhel-x.y</code> branch before pushing; pushing to the wrong branch can cause instability in downstream release streams.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="build-and-release-infrastructure.html">Build and Release Infrastructure</a></span>
+  <span class="next"><a href="building-rpms-within-the-brew-environment.html">Building RPMs within the Brew environment</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+<script defer src="../../../_/js/vendor/tabs.js"></script>
+<script defer src="../../../_/js/vendor/reading-time.js"></script>
+<script src="../../../_/js/vendor/lunr.js"></script>
+<script src="../../../_/js/search-ui.js" id="search-ui-script" data-site-root-path="../../.." data-snippet-length="100" data-stylesheet="../../../_/css/search.css"></script>
+<script async src="../../../search-index.js"></script>
+  </body>
+</html>

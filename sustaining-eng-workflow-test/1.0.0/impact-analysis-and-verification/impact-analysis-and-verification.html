@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Impact Analysis and Verification :: Overview on CVE and Tools Used</title>
+    <link rel="prev" href="../triage-and-tracking-tools/tracking-requirements-based-on-vulnerability-severity.html">
+    <link rel="next" href="utilizing-static-analysis-for-vulnerability-assessment.html">
+    <meta name="generator" content="Antora 3.2.0-alpha.12">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/tabs.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/collapsible.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/reading-time.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/audio-transcript.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">Overview on CVE and Tools Used</a>
+      <div class="navbar-item search hide-for-print">
+        <div id="search-field" class="field">
+          <input id="search-input" type="text" placeholder="Search the docs">
+        </div>
+      </div>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="sustaining-eng-workflow-test" data-version="1.0.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">Overview on CVE and Tools Used</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Home</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../LABENV/index.html">Lab Environment</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../understanding-cve-fundamentals/understanding-cve-fundamentals.html">Understanding CVE Fundamentals</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/definition-and-purpose-of-common-vulnerabilities-and-exposures-cve.html">Definition and purpose of Common Vulnerabilities and Exposures (CVE)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/vulnerability-triage-and-cvss-severity-scoring.html">Vulnerability triage and CVSS severity scoring</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/scope-of-sustaining-engineering-in-rhel-maintenance.html">Scope of Sustaining Engineering in RHEL maintenance</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/strategies-for-backporting-security-patches-versus-upstream-rebasing.html">Strategies for backporting security patches versus upstream rebasing</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../cve-resolution-workflow/cve-resolution-workflow.html">CVE Resolution Workflow</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cve-resolution-workflow/lifecycle-stages-triage-analysis-development-build-testing-and-release.html">Lifecycle stages: Triage, Analysis, Development, Build, Testing, and Release</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cve-resolution-workflow/coordination-between-product-security-and-subsystem-teams.html">Coordination between Product Security and Subsystem Teams</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cve-resolution-workflow/management-of-security-advisories-and-errata-release.html">Management of security advisories and errata release</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../triage-and-tracking-tools/triage-and-tracking-tools.html">Triage and Tracking Tools</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../triage-and-tracking-tools/managing-issue-tracking-with-jira-and-bugzilla.html">Managing issue tracking with Jira and Bugzilla</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../triage-and-tracking-tools/establishing-slas-and-embargo-guidelines-with-prodsec-tools.html">Establishing SLAs and embargo guidelines with ProdSec tools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../triage-and-tracking-tools/tracking-requirements-based-on-vulnerability-severity.html">Tracking requirements based on vulnerability severity</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="impact-analysis-and-verification.html">Impact Analysis and Verification</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="utilizing-static-analysis-for-vulnerability-assessment.html">Utilizing static analysis for vulnerability assessment</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="reachability-analysis-using-govulncheck-and-callgraphdigraph.html">Reachability analysis using govulncheck and callgraph/digraph</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="verifying-vulnerable-function-calls-in-compiled-code.html">Verifying vulnerable function calls in compiled code</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../build-and-release-infrastructure/build-and-release-infrastructure.html">Build and Release Infrastructure</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../build-and-release-infrastructure/patching-dist-git-repositories-using-rhpkg.html">Patching dist-git repositories using rhpkg</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../build-and-release-infrastructure/building-rpms-within-the-brew-environment.html">Building RPMs within the Brew environment</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../build-and-release-infrastructure/validating-fixes-through-beaker-tmt-and-testing-farm.html">Validating fixes through Beaker, tmt, and Testing Farm</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../build-and-release-infrastructure/shipping-updates-via-the-errata-tool-and-cdn.html">Shipping updates via the Errata Tool and CDN</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../appendix/appendix.html">Appendix</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Overview on CVE and Tools Used</span>
+    <span class="version">1.0.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">Overview on CVE and Tools Used</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">1.0.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">Overview on CVE and Tools Used</a></li>
+    <li><a href="impact-analysis-and-verification.html">Impact Analysis and Verification</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Impact Analysis and Verification</h1>
+<h1 id="_impact_analysis_and_verification" class="sect0"><a class="anchor" href="#_impact_analysis_and_verification"></a>Impact Analysis and Verification</h1>
+<div class="paragraph">
+<p>Impact analysis and verification ensure that identified vulnerabilities are accurately scoped and effectively resolved before final release. This phase involves assessing the reachability of vulnerable code and validating the fix through rigorous testing.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Vulnerability Assessment:</strong> Utilize static analysis tools to identify potential code weaknesses and determine the extent of the vulnerability within the codebase.</p>
+</li>
+<li>
+<p><strong>Reachability Analysis:</strong> Employ tools like <code>govulncheck</code>, <code>callgraph</code>, and <code>digraph</code> to determine if the vulnerable code path is actually reachable during runtime, preventing unnecessary patching of non-exploitable code.</p>
+</li>
+<li>
+<p><strong>Verification:</strong> Confirm the effectiveness of patches by executing manual reproducers or Proof of Concept (PoC) scripts.</p>
+</li>
+<li>
+<p><strong>Documentation:</strong> Record test evidence, including command-line execution strings, logs, and summaries of findings, within the Jira/CVE tracker to ensure full transparency and compliance with QE guidelines.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>FIXME: Add a flowchart illustrating the workflow from static analysis and reachability checks to final verification and documentation in Jira.</p>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="../triage-and-tracking-tools/tracking-requirements-based-on-vulnerability-severity.html">Tracking requirements based on vulnerability severity</a></span>
+  <span class="next"><a href="utilizing-static-analysis-for-vulnerability-assessment.html">Utilizing static analysis for vulnerability assessment</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+<script defer src="../../../_/js/vendor/tabs.js"></script>
+<script defer src="../../../_/js/vendor/reading-time.js"></script>
+<script src="../../../_/js/vendor/lunr.js"></script>
+<script src="../../../_/js/search-ui.js" id="search-ui-script" data-site-root-path="../../.." data-snippet-length="100" data-stylesheet="../../../_/css/search.css"></script>
+<script async src="../../../search-index.js"></script>
+  </body>
+</html>

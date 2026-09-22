@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Validating fixes through Beaker, tmt, and Testing Farm :: Overview on CVE and Tools Used</title>
+    <link rel="prev" href="building-rpms-within-the-brew-environment.html">
+    <link rel="next" href="shipping-updates-via-the-errata-tool-and-cdn.html">
+    <meta name="generator" content="Antora 3.2.0-alpha.12">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/tabs.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/collapsible.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/reading-time.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/audio-transcript.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">Overview on CVE and Tools Used</a>
+      <div class="navbar-item search hide-for-print">
+        <div id="search-field" class="field">
+          <input id="search-input" type="text" placeholder="Search the docs">
+        </div>
+      </div>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="sustaining-eng-workflow-test" data-version="1.0.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">Overview on CVE and Tools Used</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Home</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../LABENV/index.html">Lab Environment</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../understanding-cve-fundamentals/understanding-cve-fundamentals.html">Understanding CVE Fundamentals</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/definition-and-purpose-of-common-vulnerabilities-and-exposures-cve.html">Definition and purpose of Common Vulnerabilities and Exposures (CVE)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/vulnerability-triage-and-cvss-severity-scoring.html">Vulnerability triage and CVSS severity scoring</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/scope-of-sustaining-engineering-in-rhel-maintenance.html">Scope of Sustaining Engineering in RHEL maintenance</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/strategies-for-backporting-security-patches-versus-upstream-rebasing.html">Strategies for backporting security patches versus upstream rebasing</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../cve-resolution-workflow/cve-resolution-workflow.html">CVE Resolution Workflow</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cve-resolution-workflow/lifecycle-stages-triage-analysis-development-build-testing-and-release.html">Lifecycle stages: Triage, Analysis, Development, Build, Testing, and Release</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cve-resolution-workflow/coordination-between-product-security-and-subsystem-teams.html">Coordination between Product Security and Subsystem Teams</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cve-resolution-workflow/management-of-security-advisories-and-errata-release.html">Management of security advisories and errata release</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../triage-and-tracking-tools/triage-and-tracking-tools.html">Triage and Tracking Tools</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../triage-and-tracking-tools/managing-issue-tracking-with-jira-and-bugzilla.html">Managing issue tracking with Jira and Bugzilla</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../triage-and-tracking-tools/establishing-slas-and-embargo-guidelines-with-prodsec-tools.html">Establishing SLAs and embargo guidelines with ProdSec tools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../triage-and-tracking-tools/tracking-requirements-based-on-vulnerability-severity.html">Tracking requirements based on vulnerability severity</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../impact-analysis-and-verification/impact-analysis-and-verification.html">Impact Analysis and Verification</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../impact-analysis-and-verification/utilizing-static-analysis-for-vulnerability-assessment.html">Utilizing static analysis for vulnerability assessment</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../impact-analysis-and-verification/reachability-analysis-using-govulncheck-and-callgraphdigraph.html">Reachability analysis using govulncheck and callgraph/digraph</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../impact-analysis-and-verification/verifying-vulnerable-function-calls-in-compiled-code.html">Verifying vulnerable function calls in compiled code</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="build-and-release-infrastructure.html">Build and Release Infrastructure</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="patching-dist-git-repositories-using-rhpkg.html">Patching dist-git repositories using rhpkg</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="building-rpms-within-the-brew-environment.html">Building RPMs within the Brew environment</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="validating-fixes-through-beaker-tmt-and-testing-farm.html">Validating fixes through Beaker, tmt, and Testing Farm</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="shipping-updates-via-the-errata-tool-and-cdn.html">Shipping updates via the Errata Tool and CDN</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../appendix/appendix.html">Appendix</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Overview on CVE and Tools Used</span>
+    <span class="version">1.0.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">Overview on CVE and Tools Used</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">1.0.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">Overview on CVE and Tools Used</a></li>
+    <li><a href="build-and-release-infrastructure.html">Build and Release Infrastructure</a></li>
+    <li><a href="validating-fixes-through-beaker-tmt-and-testing-farm.html">Validating fixes through Beaker, tmt, and Testing Farm</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Validating fixes through Beaker, tmt, and Testing Farm</h1>
+<h1 id="_validating_fixes_through_beaker_tmt_and_testing_farm" class="sect0"><a class="anchor" href="#_validating_fixes_through_beaker_tmt_and_testing_farm"></a>Validating Fixes through Beaker, tmt, and Testing Farm</h1>
+<div class="paragraph">
+<p>Once a security fix has been developed and built within the Brew environment, the validation phase is critical to ensure that the patch successfully remediates the vulnerability without introducing regressions or stability issues across supported architectures.</p>
+</div>
+<div class="paragraph">
+<p>In the RHEL ecosystem, validation is orchestrated through a tiered approach involving <code>tmt</code> (Test Management Tool), the Testing Farm, and Beaker for hardware-specific scenarios.</p>
+</div>
+<div class="sect1">
+<h2 id="_the_validation_lifecycle"><a class="anchor" href="#_the_validation_lifecycle"></a>The Validation Lifecycle</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The transition from a built RPM to a verified update follows a structured pipeline. Before official release, every fix must pass a series of automated gates.</p>
+</div>
+<div class="paragraph">
+<p>FIXME: [Insert flow chart here: Showing the transition from Brew Build &#8594; tmt/Testing Farm (Virtualization) &#8594; Beaker (Bare Metal) &#8594; Results/Feedback Loop]</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_test_management_with_tmt"><a class="anchor" href="#_test_management_with_tmt"></a>Test Management with tmt</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <strong>Test Management Tool (tmt)</strong> acts as the standard interface for defining and executing test plans. It allows maintainers to specify test requirements in a declarative format (usually via a <code>plans.fmf</code> file in the package repository).</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Standardization:</strong> <code>tmt</code> abstracts the underlying infrastructure, allowing developers to run the same test plan locally, in a CI pipeline, or within the cloud-based Testing Farm.</p>
+</li>
+<li>
+<p><strong>Integration:</strong> It supports various test types, including functional tests, performance benchmarks, and regression suites.</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_executing_tests_via_testing_farm"><a class="anchor" href="#_executing_tests_via_testing_farm"></a>Executing Tests via Testing Farm</h3>
+<div class="paragraph">
+<p>The <strong>Testing Farm</strong> provides the on-demand, scalable infrastructure required to execute <code>tmt</code> test plans against specific RHEL builds.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Request Submission:</strong> After a build is promoted to the testing repository, a request is sent to the Testing Farm.</p>
+</li>
+<li>
+<p><strong>Environment Provisioning:</strong> The farm provisions a guest VM based on the target RHEL version and architecture.</p>
+</li>
+<li>
+<p><strong>Execution:</strong> The test plans defined in <code>tmt</code> are cloned and executed within the provisioned environment.</p>
+</li>
+<li>
+<p><strong>Reporting:</strong> Logs and artifacts are collected and mapped back to the tracker (e.g., Jira or Bugzilla) for maintainer review.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_hardware_multi_architecture_validation_beaker"><a class="anchor" href="#_hardware_multi_architecture_validation_beaker"></a>Hardware &amp; Multi-Architecture Validation (Beaker)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>While <code>tmt</code> and Testing Farm handle the majority of userspace testing, certain packages—such as the <strong>kernel</strong>, device drivers, or low-level libraries—require access to specific hardware or multi-architecture bare-metal environments. This is where <strong>Beaker</strong> is utilized.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Bare-Metal Provisioning:</strong> Beaker allows for the scheduling of tests on physical machines, which is essential for validating kernel-mode vulnerabilities that cannot be reproduced or verified in a virtualized container.</p>
+</li>
+<li>
+<p><strong>Architecture Coverage:</strong> It ensures that fixes are validated across the full RHEL support matrix (e.g., x86_64, aarch64, ppc64le, s390x).</p>
+</li>
+<li>
+<p><strong>Hardware Labs:</strong> Beaker manages the physical lab infrastructure, allowing maintainers to request specific hardware configurations (e.g., specific CPU features, NICs, or storage controllers) required to verify a fix.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_hands_on_activity_validating_a_fix"><a class="anchor" href="#_hands_on_activity_validating_a_fix"></a>Hands-on Activity: Validating a Fix</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This activity demonstrates how to trigger an automated test suite for a package fix.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Step 1: Define the test plan</strong>
+Ensure your package directory contains a <code>plans/</code> directory with a <code>plans.fmf</code> file defining the scope of your verification (e.g., testing the specific CVE reproducer).</p>
+</li>
+<li>
+<p><strong>Step 2: Submit to Testing Farm</strong>
+Use the <code>tmt</code> CLI or the Testing Farm API to submit your build for testing:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># Example: Running a tmt plan against a build
+tmt run --environment BUILD_ID=1234567 --plan /plans/security_regression</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Step 3: Monitor Beaker (If Applicable)</strong>
+If your fix is kernel-related, use the <code>bkr</code> CLI to check the status of your hardware job:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># Check job status in Beaker
+bkr job-status &lt;JOB_ID&gt;</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Step 4: Analyze Results</strong>
+Review the logs provided by the Testing Farm. If the test fails, investigate the <code>tmt</code> logs to determine if the regression was caused by the patch or an environmental factor. Once tests pass, the fix is ready to proceed to the Errata Tool.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_expert_insight_troubleshooting_validation_failures"><a class="anchor" href="#_expert_insight_troubleshooting_validation_failures"></a>Expert Insight: Troubleshooting Validation Failures</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Reproducer Mismatch:</strong> If your test passes in a VM but fails on hardware, verify if your patch relies on specific CPU flags or hardware state that is only present in the Beaker environment.</p>
+</li>
+<li>
+<p><strong>Triage Prioritization:</strong> If test resources are constrained, prioritize the execution of "Tier 1" regression tests to ensure core system functionality is intact before running exhaustive security-specific suites.</p>
+</li>
+<li>
+<p><strong>Artifact Retention:</strong> Always ensure that <code>tmt</code> is configured to export journal logs and core dumps, as these are indispensable when a fix fails during automated testing.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="building-rpms-within-the-brew-environment.html">Building RPMs within the Brew environment</a></span>
+  <span class="next"><a href="shipping-updates-via-the-errata-tool-and-cdn.html">Shipping updates via the Errata Tool and CDN</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+<script defer src="../../../_/js/vendor/tabs.js"></script>
+<script defer src="../../../_/js/vendor/reading-time.js"></script>
+<script src="../../../_/js/vendor/lunr.js"></script>
+<script src="../../../_/js/search-ui.js" id="search-ui-script" data-site-root-path="../../.." data-snippet-length="100" data-stylesheet="../../../_/css/search.css"></script>
+<script async src="../../../search-index.js"></script>
+  </body>
+</html>

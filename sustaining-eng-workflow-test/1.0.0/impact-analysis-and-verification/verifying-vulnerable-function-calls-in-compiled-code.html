@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Verifying vulnerable function calls in compiled code :: Overview on CVE and Tools Used</title>
+    <link rel="prev" href="reachability-analysis-using-govulncheck-and-callgraphdigraph.html">
+    <link rel="next" href="../build-and-release-infrastructure/build-and-release-infrastructure.html">
+    <meta name="generator" content="Antora 3.2.0-alpha.12">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/tabs.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/collapsible.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/reading-time.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/audio-transcript.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">Overview on CVE and Tools Used</a>
+      <div class="navbar-item search hide-for-print">
+        <div id="search-field" class="field">
+          <input id="search-input" type="text" placeholder="Search the docs">
+        </div>
+      </div>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="sustaining-eng-workflow-test" data-version="1.0.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">Overview on CVE and Tools Used</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Home</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../LABENV/index.html">Lab Environment</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../understanding-cve-fundamentals/understanding-cve-fundamentals.html">Understanding CVE Fundamentals</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/definition-and-purpose-of-common-vulnerabilities-and-exposures-cve.html">Definition and purpose of Common Vulnerabilities and Exposures (CVE)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/vulnerability-triage-and-cvss-severity-scoring.html">Vulnerability triage and CVSS severity scoring</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/scope-of-sustaining-engineering-in-rhel-maintenance.html">Scope of Sustaining Engineering in RHEL maintenance</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/strategies-for-backporting-security-patches-versus-upstream-rebasing.html">Strategies for backporting security patches versus upstream rebasing</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../cve-resolution-workflow/cve-resolution-workflow.html">CVE Resolution Workflow</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cve-resolution-workflow/lifecycle-stages-triage-analysis-development-build-testing-and-release.html">Lifecycle stages: Triage, Analysis, Development, Build, Testing, and Release</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cve-resolution-workflow/coordination-between-product-security-and-subsystem-teams.html">Coordination between Product Security and Subsystem Teams</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cve-resolution-workflow/management-of-security-advisories-and-errata-release.html">Management of security advisories and errata release</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../triage-and-tracking-tools/triage-and-tracking-tools.html">Triage and Tracking Tools</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../triage-and-tracking-tools/managing-issue-tracking-with-jira-and-bugzilla.html">Managing issue tracking with Jira and Bugzilla</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../triage-and-tracking-tools/establishing-slas-and-embargo-guidelines-with-prodsec-tools.html">Establishing SLAs and embargo guidelines with ProdSec tools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../triage-and-tracking-tools/tracking-requirements-based-on-vulnerability-severity.html">Tracking requirements based on vulnerability severity</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="impact-analysis-and-verification.html">Impact Analysis and Verification</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="utilizing-static-analysis-for-vulnerability-assessment.html">Utilizing static analysis for vulnerability assessment</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="reachability-analysis-using-govulncheck-and-callgraphdigraph.html">Reachability analysis using govulncheck and callgraph/digraph</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="verifying-vulnerable-function-calls-in-compiled-code.html">Verifying vulnerable function calls in compiled code</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../build-and-release-infrastructure/build-and-release-infrastructure.html">Build and Release Infrastructure</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../build-and-release-infrastructure/patching-dist-git-repositories-using-rhpkg.html">Patching dist-git repositories using rhpkg</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../build-and-release-infrastructure/building-rpms-within-the-brew-environment.html">Building RPMs within the Brew environment</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../build-and-release-infrastructure/validating-fixes-through-beaker-tmt-and-testing-farm.html">Validating fixes through Beaker, tmt, and Testing Farm</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../build-and-release-infrastructure/shipping-updates-via-the-errata-tool-and-cdn.html">Shipping updates via the Errata Tool and CDN</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../appendix/appendix.html">Appendix</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Overview on CVE and Tools Used</span>
+    <span class="version">1.0.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">Overview on CVE and Tools Used</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">1.0.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">Overview on CVE and Tools Used</a></li>
+    <li><a href="impact-analysis-and-verification.html">Impact Analysis and Verification</a></li>
+    <li><a href="verifying-vulnerable-function-calls-in-compiled-code.html">Verifying vulnerable function calls in compiled code</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Verifying vulnerable function calls in compiled code</h1>
+<h1 id="_verifying_vulnerable_function_calls_in_compiled_code" class="sect0"><a class="anchor" href="#_verifying_vulnerable_function_calls_in_compiled_code"></a>Verifying Vulnerable Function Calls in Compiled Code</h1>
+<div class="paragraph">
+<p>Once a CVE has been identified and a potential patch is developed, confirming the fix at the source code level is only half the battle. In the context of RHEL Sustaining Engineering, we must verify that the compiled machine code no longer contains the vulnerable logic. This process ensures that the fix was not only applied correctly but also preserved through the compilation and optimization pipeline.</p>
+</div>
+<div class="sect1">
+<h2 id="_understanding_the_verification_challenge"><a class="anchor" href="#_understanding_the_verification_challenge"></a>Understanding the Verification Challenge</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When a vulnerability is located within a specific function, simply inspecting the source code is insufficient. Compilers can perform aggressive optimizations—such as inlining, loop unrolling, or dead-code elimination—which may alter the control flow or even remove the vulnerable function entirely, or conversely, create new execution paths.</p>
+</div>
+<div class="paragraph">
+<p>To verify the compiled binary, we must bridge the gap between the source-level fix and the binary-level reality.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_workflow_from_patch_to_binary_verification"><a class="anchor" href="#_workflow_from_patch_to_binary_verification"></a>Workflow: From Patch to Binary Verification</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The verification process involves tracing the vulnerable function calls from the source-level logic down to the assembly level within the shared object (<code>.so</code>) or executable binary.</p>
+</div>
+<div class="paragraph">
+<p>FIXME: [Insert flow diagram: Vulnerability Verification Pipeline: Source Code &#8594; Compiler &#8594; Optimized Binary &#8594; Binary Analysis/Disassembly &#8594; Verification Result]</p>
+</div>
+<div class="sect2">
+<h3 id="_step_by_step_binary_analysis_procedure"><a class="anchor" href="#_step_by_step_binary_analysis_procedure"></a>Step-by-Step: Binary Analysis Procedure</h3>
+<div class="paragraph">
+<p>Follow these steps to verify that the vulnerable function call has been remediated in the compiled RPM.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_1_extract_the_compiled_artifact"><a class="anchor" href="#_1_extract_the_compiled_artifact"></a>1. Extract the Compiled Artifact</h3>
+<div class="paragraph">
+<p>Before analysis, ensure you are working with the binary generated by the patched build (Brew).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># Extract the RPM package to retrieve the binaries
+rpm2cpio &lt;package_name&gt;.rpm | cpio -idmv
+# Locate the target library or binary
+find . -name "libvulnerable.so"</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_2_locate_the_vulnerable_symbol"><a class="anchor" href="#_2_locate_the_vulnerable_symbol"></a>2. Locate the Vulnerable Symbol</h3>
+<div class="paragraph">
+<p>Use <code>nm</code> or <code>objdump</code> to inspect the symbol table. This confirms that the vulnerable function exists in the binary and identifies its address.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># List symbols and filter for the vulnerable function
+nm -D libvulnerable.so | grep &lt;vulnerable_function_name&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_3_disassemble_the_control_flow"><a class="anchor" href="#_3_disassemble_the_control_flow"></a>3. Disassemble the Control Flow</h3>
+<div class="paragraph">
+<p>To verify the fix, we use <code>objdump</code> to examine the assembly instructions. We are looking for the removal of dangerous instructions or the addition of boundary checks (e.g., bounds checking before a buffer copy).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># Disassemble the function to view the assembly code
+objdump -d -j .text libvulnerable.so | sed -n '/&lt;vulnerable_function_name&gt;:/,/^$/p'</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>What to look for:</strong></p>
+</li>
+<li>
+<p><strong>Inlining:</strong> If the function is inlined, it may not appear as a distinct call. Check if the code previously surrounding the call has changed.</p>
+</li>
+<li>
+<p><strong>Boundary Checks:</strong> Look for <code>cmp</code> (compare) instructions followed by conditional jumps (<code>jle</code>, <code>jne</code>) that prevent illegal memory access.</p>
+</li>
+<li>
+<p><strong>Safety Primitives:</strong> Verify that functions like <code>strcpy</code> have been replaced by their safer counterparts (<code>strncpy</code>, <code>strlcpy</code>) in the disassembly.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_4_trace_reachability"><a class="anchor" href="#_4_trace_reachability"></a>4. Trace Reachability</h3>
+<div class="paragraph">
+<p>If the function is large, use <code>callgraph</code> or static analysis tools to verify the call path. Ensure that the vulnerable code path is now unreachable or correctly guarded.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If <code>govulncheck</code> (for Go-based components) was used during the analysis phase, compare its output before and after the patch. It provides a high-level view of whether the vulnerable function remains in the call stack.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_troubleshooting_verification"><a class="anchor" href="#_troubleshooting_verification"></a>Troubleshooting Verification</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If the binary still shows evidence of the vulnerability:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Check Compiler Flags:</strong> Ensure that <code>_FORTIFY_SOURCE</code> or stack-protector flags were active during the Brew build.</p>
+</li>
+<li>
+<p><strong>Verify Debug Symbols:</strong> If you cannot see function names, ensure the <code>debuginfo</code> package for the RPM is installed.</p>
+</li>
+<li>
+<p><strong>Cross-Reference with <code>dist-git</code>:</strong> Verify that the <code>rhpkg</code> patch was correctly applied to the sources before the build triggered. If the patch did not apply cleanly, the binary will not reflect the fix.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary_checklist_for_qe"><a class="anchor" href="#_summary_checklist_for_qe"></a>Summary Checklist for QE</h2>
+<div class="sectionbody">
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<p><i class="fa fa-square-o"></i> Binary extracted from the patched Brew build.</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Symbol verification confirms the patched code is present.</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Disassembly validates that security bounds or logic gates are active.</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> No regression detected in adjacent function calls.</p>
+</li>
+<li>
+<p><i class="fa fa-square-o"></i> Results documented in the Jira ticket for the Errata sign-off.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="reachability-analysis-using-govulncheck-and-callgraphdigraph.html">Reachability analysis using govulncheck and callgraph/digraph</a></span>
+  <span class="next"><a href="../build-and-release-infrastructure/build-and-release-infrastructure.html">Build and Release Infrastructure</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+<script defer src="../../../_/js/vendor/tabs.js"></script>
+<script defer src="../../../_/js/vendor/reading-time.js"></script>
+<script src="../../../_/js/vendor/lunr.js"></script>
+<script src="../../../_/js/search-ui.js" id="search-ui-script" data-site-root-path="../../.." data-snippet-length="100" data-stylesheet="../../../_/css/search.css"></script>
+<script async src="../../../search-index.js"></script>
+  </body>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Establishing SLAs and embargo guidelines with ProdSec tools :: Overview on CVE and Tools Used</title>
+    <link rel="prev" href="managing-issue-tracking-with-jira-and-bugzilla.html">
+    <link rel="next" href="tracking-requirements-based-on-vulnerability-severity.html">
+    <meta name="generator" content="Antora 3.2.0-alpha.12">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/tabs.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/collapsible.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/reading-time.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/audio-transcript.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">Overview on CVE and Tools Used</a>
+      <div class="navbar-item search hide-for-print">
+        <div id="search-field" class="field">
+          <input id="search-input" type="text" placeholder="Search the docs">
+        </div>
+      </div>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="sustaining-eng-workflow-test" data-version="1.0.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">Overview on CVE and Tools Used</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Home</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../LABENV/index.html">Lab Environment</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../understanding-cve-fundamentals/understanding-cve-fundamentals.html">Understanding CVE Fundamentals</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/definition-and-purpose-of-common-vulnerabilities-and-exposures-cve.html">Definition and purpose of Common Vulnerabilities and Exposures (CVE)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/vulnerability-triage-and-cvss-severity-scoring.html">Vulnerability triage and CVSS severity scoring</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/scope-of-sustaining-engineering-in-rhel-maintenance.html">Scope of Sustaining Engineering in RHEL maintenance</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../understanding-cve-fundamentals/strategies-for-backporting-security-patches-versus-upstream-rebasing.html">Strategies for backporting security patches versus upstream rebasing</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../cve-resolution-workflow/cve-resolution-workflow.html">CVE Resolution Workflow</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cve-resolution-workflow/lifecycle-stages-triage-analysis-development-build-testing-and-release.html">Lifecycle stages: Triage, Analysis, Development, Build, Testing, and Release</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cve-resolution-workflow/coordination-between-product-security-and-subsystem-teams.html">Coordination between Product Security and Subsystem Teams</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cve-resolution-workflow/management-of-security-advisories-and-errata-release.html">Management of security advisories and errata release</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="triage-and-tracking-tools.html">Triage and Tracking Tools</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="managing-issue-tracking-with-jira-and-bugzilla.html">Managing issue tracking with Jira and Bugzilla</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="establishing-slas-and-embargo-guidelines-with-prodsec-tools.html">Establishing SLAs and embargo guidelines with ProdSec tools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="tracking-requirements-based-on-vulnerability-severity.html">Tracking requirements based on vulnerability severity</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../impact-analysis-and-verification/impact-analysis-and-verification.html">Impact Analysis and Verification</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../impact-analysis-and-verification/utilizing-static-analysis-for-vulnerability-assessment.html">Utilizing static analysis for vulnerability assessment</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../impact-analysis-and-verification/reachability-analysis-using-govulncheck-and-callgraphdigraph.html">Reachability analysis using govulncheck and callgraph/digraph</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../impact-analysis-and-verification/verifying-vulnerable-function-calls-in-compiled-code.html">Verifying vulnerable function calls in compiled code</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../build-and-release-infrastructure/build-and-release-infrastructure.html">Build and Release Infrastructure</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../build-and-release-infrastructure/patching-dist-git-repositories-using-rhpkg.html">Patching dist-git repositories using rhpkg</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../build-and-release-infrastructure/building-rpms-within-the-brew-environment.html">Building RPMs within the Brew environment</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../build-and-release-infrastructure/validating-fixes-through-beaker-tmt-and-testing-farm.html">Validating fixes through Beaker, tmt, and Testing Farm</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../build-and-release-infrastructure/shipping-updates-via-the-errata-tool-and-cdn.html">Shipping updates via the Errata Tool and CDN</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../appendix/appendix.html">Appendix</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Overview on CVE and Tools Used</span>
+    <span class="version">1.0.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">Overview on CVE and Tools Used</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">1.0.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">Overview on CVE and Tools Used</a></li>
+    <li><a href="triage-and-tracking-tools.html">Triage and Tracking Tools</a></li>
+    <li><a href="establishing-slas-and-embargo-guidelines-with-prodsec-tools.html">Establishing SLAs and embargo guidelines with ProdSec tools</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Establishing SLAs and embargo guidelines with ProdSec tools</h1>
+<h1 id="_establishing_slas_and_embargo_guidelines_with_prodsec_tools" class="sect0"><a class="anchor" href="#_establishing_slas_and_embargo_guidelines_with_prodsec_tools"></a>Establishing SLAs and Embargo Guidelines with ProdSec Tools</h1>
+<div class="paragraph">
+<p>In the Red Hat Enterprise Linux (RHEL) ecosystem, maintaining security integrity requires strict adherence to Service Level Agreements (SLAs) and the handling of sensitive vulnerability information. This process is orchestrated through specialized Product Security (ProdSec) tooling to ensure consistent, global responses to security threats.</p>
+</div>
+<div class="sect1">
+<h2 id="_understanding_slas_and_embargoes"><a class="anchor" href="#_understanding_slas_and_embargoes"></a>Understanding SLAs and Embargoes</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_service_level_agreements_slas"><a class="anchor" href="#_service_level_agreements_slas"></a>Service Level Agreements (SLAs)</h3>
+<div class="paragraph">
+<p>SLAs define the mandatory timeframe within which a vulnerability must be addressed. These timelines are driven by the assigned <strong>CVSS (Common Vulnerability Scoring System)</strong> severity.
+*   <strong>Critical/Important CVEs:</strong> Demand immediate attention, often requiring full Z-stream and Y-stream trackers to ensure existing installations and future releases are patched.
+*   <strong>Moderate/Low CVEs:</strong> Typically follow a more flexible schedule, often limited to Y-stream trackers depending on the specific product release policy.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_embargo_guidelines"><a class="anchor" href="#_embargo_guidelines"></a>Embargo Guidelines</h3>
+<div class="paragraph">
+<p>An embargo is a period during which vulnerability information is restricted to specific parties (e.g., vendors, OS maintainers) to prevent exploitation before a fix is available. ProdSec tools are critical in:
+*   Restricting access to Jira/Bugzilla trackers.
+*   Ensuring communication occurs over encrypted, authorized channels.
+*   Coordinating the "coordinated disclosure" date with upstream maintainers and other Linux distributions.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_managing_compliance_via_prodsec_tooling"><a class="anchor" href="#_managing_compliance_via_prodsec_tooling"></a>Managing Compliance via ProdSec Tooling</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ProdSec internal tools automate the calculation of these deadlines, translating global security policies into actionable dates for Subsystem Teams (SSTs).</p>
+</div>
+<div class="paragraph">
+<div class="title">Workflow: From CVE Receipt to SLA Enforcement</div>
+<p>FIXME: [Insert flow chart here: Showing the flow from CVE ingestion by ProdSec &#8594; Tool-based SLA calculation &#8594; Jira/Bugzilla ticket creation &#8594; SST assignment &#8594; Embargo management flags]</p>
+</div>
+<div class="sect2">
+<h3 id="_step_by_step_utilizing_prodsec_tools_for_tracking"><a class="anchor" href="#_step_by_step_utilizing_prodsec_tools_for_tracking"></a>Step-by-Step: Utilizing ProdSec Tools for Tracking</h3>
+<div class="paragraph">
+<p>Follow these steps to ensure compliance when handling a new CVE:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Initialization:</strong> When a new CVE is ingested, the ProdSec tool automatically calculates the remediation deadline based on the CVSS score.</p>
+</li>
+<li>
+<p><strong>Tracker Setup:</strong> A Jira or Bugzilla tracker is generated. Verify that the "Due Date" field reflects the SLA calculated by the ProdSec tool.</p>
+</li>
+<li>
+<p><strong>Embargo Verification:</strong> Check the visibility settings on the tracker. If the CVE is under embargo, the tool will restrict access to cleared personnel only.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Warning:</strong> Never discuss embargoed CVEs in public channels or non-authorized Jiras.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Monitoring Progress:</strong> Use the dashboard views provided by the ProdSec suite to monitor your team&#8217;s remaining time. If a blocker prevents meeting the SLA, coordinate with ProdSec immediately to request an extension or exception.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_hands_on_activity_navigating_tracker_slas"><a class="anchor" href="#_hands_on_activity_navigating_tracker_slas"></a>Hands-On Activity: Navigating Tracker SLAs</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This activity simulates the initial triage of a vulnerability tracker.</p>
+</div>
+<div class="paragraph">
+<p><strong>Objective:</strong> Identify your team&#8217;s deadline and visibility constraints using the provided issue tracker.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Access the Tracker:</strong> Open the Jira ticket assigned to your SST.</p>
+</li>
+<li>
+<p><strong>Verify Severity:</strong> Check the "CVSS Score" and "Severity" fields. Ensure they match the upstream advisory.</p>
+</li>
+<li>
+<p><strong>Check Deadline:</strong> Locate the "SLA Due Date" field populated by the ProdSec integration tool.</p>
+</li>
+<li>
+<p><strong>Confirm Embargo Status:</strong> Look for the security labels or "Embargoed" flags at the top of the Jira issue. If flagged, ensure your current local environment has the necessary permissions (via Kerberos/VPN) to view the issue details.</p>
+</li>
+<li>
+<p><strong>Set Status:</strong> Move the ticket to "Analysis" to signal to ProdSec that the SST has acknowledged the SLA and has begun the impact assessment.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If the calculated SLA date appears incorrect based on the vulnerability&#8217;s actual impact, use the ProdSec portal to request a "Severity Re-evaluation." Do not modify the SLA date manually in Jira, as these fields are synced automatically by the backend tooling.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="managing-issue-tracking-with-jira-and-bugzilla.html">Managing issue tracking with Jira and Bugzilla</a></span>
+  <span class="next"><a href="tracking-requirements-based-on-vulnerability-severity.html">Tracking requirements based on vulnerability severity</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+<script defer src="../../../_/js/vendor/tabs.js"></script>
+<script defer src="../../../_/js/vendor/reading-time.js"></script>
+<script src="../../../_/js/vendor/lunr.js"></script>
+<script src="../../../_/js/search-ui.js" id="search-ui-script" data-site-root-path="../../.." data-snippet-length="100" data-stylesheet="../../../_/css/search.css"></script>
+<script async src="../../../search-index.js"></script>
+  </body>
+</html>
